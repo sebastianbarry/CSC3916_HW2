@@ -72,27 +72,33 @@ router.post('/signin', function (req, res) {
     }
 });
 
-router.route('/testcollection')
+router.route('/movies')
     .delete(authController.isAuthenticated, function(req, res) {
         console.log(req.body);
         res = res.status(200);
         if (req.get('Content-Type')) {
             res = res.type(req.get('Content-Type'));
+            res.status(200).send({success: true, msg: 'movie deleted'});
         }
         var o = getJSONObjectForMovieRequirement(req);
         res.json(o);
-    }
-    )
+    })
     .put(authJwtController.isAuthenticated, function(req, res) {
         console.log(req.body);
         res = res.status(200);
         if (req.get('Content-Type')) {
             res = res.type(req.get('Content-Type'));
+            res.status(200).send({success: true, msg: 'movie updated'});
         }
         var o = getJSONObjectForMovieRequirement(req);
         res.json(o);
-    }
-    );
+    })
+    .get(function (req, res){
+        res.status(200).send({success: true, msg: 'GET movies'});
+    })
+    .post(function (req, res){
+        res.status(200).send({success: true, msg: 'movie saved'});
+    });
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
